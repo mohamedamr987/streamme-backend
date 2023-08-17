@@ -5,7 +5,10 @@ dotenv.config({ path: "./config.env" });
 const app = require(".");
 
 mongoose
-  .connect(process.env.DATABASE)
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("connected to database"));
 
 const port = process.env.PORT;
