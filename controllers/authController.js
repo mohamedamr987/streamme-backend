@@ -24,9 +24,14 @@ exports.signUp = catchSync(async (req, res, next) => {
     lastName: req.body.lastName,
   });
 
+  const token = createToken(user._id);
+
   res.status(201).json({
     isError: false,
     message: message,
+    data: {
+      user,
+    },
     messageAr: (await translate(message, { to: "ar" })).text,
   });
 });
