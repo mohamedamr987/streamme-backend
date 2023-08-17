@@ -29,6 +29,7 @@ exports.signUp = catchSync(async (req, res, next) => {
   res.status(201).json({
     isError: false,
     message: message,
+    token,
     data: {
       user,
     },
