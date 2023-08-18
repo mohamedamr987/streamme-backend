@@ -24,7 +24,7 @@ exports.createStream = catchSync(async (req, res, next) => {
 });
 
 exports.joinStream = catchSync(async (req, res, next) => {
-  const { channelName } = req.params;
+  const { channelName } = req.body;
   const stream = await Stream.findOne({ channelName });
   if (!stream) return next(new AppError("Stream not found", 404));
 
