@@ -9,6 +9,6 @@ route.get("/", streamController.getAllStreams);
 
 route.post("/create", streamController.createStream);
 route.post("/join", streamController.joinStream);
-route.delete("/delete", streamController.deleteStream);
+route.delete("/delete/:id", streamController.deleteStream);
 
 module.exports = route;
