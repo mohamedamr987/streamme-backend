@@ -31,7 +31,7 @@ exports.joinStream = catchSync(async (req, res, next) => {
   stream.viewers.push(req.user._id);
   await stream.save();
 
-  const token = generateToken(channelName, RtcRole.SUBSCRIBER);
+  const token = agoraController.generateToken(channelName, RtcRole.SUBSCRIBER);
   res.status(200).json({
     isError: false,
     message: "Stream joined successfully",
