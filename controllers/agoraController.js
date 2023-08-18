@@ -10,11 +10,11 @@ exports.generateToken = function (channelName, role) {
   const expirationTimeInSeconds = 3600;
   const currentTimestamp = Math.floor(Date.now() / 1000);
   const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
-  console.log(appID, appCertificate, channelName, uid, role);
+  console.log(appID, appCertificate, channelName.toString(), uid, role);
   const token = RtcTokenBuilder.buildTokenWithUid(
     appID,
     appCertificate,
-    channelName,
+    channelName.toString(),
     uid,
     role
   );
