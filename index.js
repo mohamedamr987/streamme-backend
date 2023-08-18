@@ -7,6 +7,7 @@ const xss = require("xss-clean");
 const hpp = require("hpp");
 const AppError = require("./utils/appError");
 const userRoute = require("./routes/userRoute");
+const streamRoute = require("./routes/streamRoute");
 const errorController = require("./controllers/errorController");
 
 const app = express();
@@ -33,6 +34,7 @@ const limiter = rateLimiter({
 app.use(`${baseV1ApiRoute}`, limiter);
 
 app.use(`${baseV1ApiRoute}users`, userRoute);
+app.use(`${baseV1ApiRoute}stream`, streamRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
