@@ -8,8 +8,9 @@ const { RtcRole } = require("agora-access-token");
 exports.getAllStreams = handlerFactory.getAll(Stream);
 
 exports.createStream = catchSync(async (req, res, next) => {
+  let stream = await Stream.findOne({ channelName: user });
   const user = req.user._id;
-  const stream = await Stream.create({ channelName: user, user });
+  if (!stream) stream = await Stream.create({ channelName: user, user });
 
   const token = agoraController.generateToken(user, RtcRole.PUBLISHER);
   stream.user = req.user;
