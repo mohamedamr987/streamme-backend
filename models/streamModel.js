@@ -18,7 +18,7 @@ const streamSchema = mongoose.Schema({
   ],
 });
 
-streamSchema.pre(/^(find|save)/, function (next) {
+streamSchema.pre(/^find/, function (next) {
   this.populate({
     path: "user",
   }).populate({

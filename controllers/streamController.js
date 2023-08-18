@@ -12,7 +12,7 @@ exports.createStream = catchSync(async (req, res, next) => {
   const stream = await Stream.create({ channelName: user, user });
 
   const token = agoraController.generateToken(user, RtcRole.PUBLISHER);
-  console.log(stream);
+  stream.user = req.user;
   res.status(201).json({
     isError: false,
     message: "Stream created successfully",
