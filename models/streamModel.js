@@ -18,6 +18,15 @@ const streamSchema = mongoose.Schema({
   ],
 });
 
+streamSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "user",
+  }).populate({
+    path: "viewers",
+  });
+  next();
+});
+
 const Stream = mongoose.model("Stream", streamSchema);
 
 module.exports = Stream;
