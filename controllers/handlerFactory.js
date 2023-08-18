@@ -1,6 +1,6 @@
-const catchSync = require('../utils/catchSync');
-const AppError = require('../utils/appError');
-const APIFeatures = require('../utils/apiFeatures');
+const catchSync = require("../utils/catchSync");
+const AppError = require("../utils/appError");
+const APIFeatures = require("../utils/apiFeatures");
 
 exports.deleteOne = (Model) =>
   catchSync(async (req, res, next) => {
@@ -8,7 +8,7 @@ exports.deleteOne = (Model) =>
     if (!doc) return next(new AppError("Couldn't find doc", 404));
     res.status(204).json({
       isError: false,
-      message: 'Doc deleted successfully',
+      message: "Doc deleted successfully",
     });
   });
 
@@ -29,7 +29,7 @@ exports.createOne = (Model) =>
   catchSync(async (req, res, next) => {
     if (req.file)
       // eslint-disable-next-line no-multi-assign
-      req.body.photo = req.body.icon = `${req.protocol}://${req.get('host')}/${
+      req.body.photo = req.body.icon = `${req.protocol}://${req.get("host")}/${
         req.file.path
       }`;
     if (req.user) req.body.user = req.user.id;
@@ -68,7 +68,10 @@ exports.getAll = (Model, filterFunc = () => {}) =>
     res.status(200).json({
       isError: false,
       results: docs.length,
-      status: 'success',
+      status: "success",
       data: docs,
+      pagination: {
+        lastPage: Math.ceil(docs.length / apiFeatures.queryOptions.limit),
+      },
     });
   });
