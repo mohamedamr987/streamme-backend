@@ -64,14 +64,20 @@ exports.getAll = (Model, filterFunc = () => {}) =>
       .sort()
       .limitFields()
       .paginate();
-    const docs = await apiFeatures.query;
+    const [docs, totalDocs] = await Promise.all([
+      apiFeatures.query,
+      apiFeatures.getTotalCount(),
+    ]);
+
+    const totalPages = Math.ceil(totalDocs / apiFeatures.queryParams.limit);
+
     res.status(200).json({
       isError: false,
       results: docs.length,
       status: "success",
       data: docs,
       pagination: {
-        lastPage: Math.ceil(docs.length / apiFeatures.queryOptions.limit),
+        lastPage: totalPages,
       },
     });
   });

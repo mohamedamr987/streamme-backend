@@ -5,7 +5,7 @@ class APIFeatures {
   }
 
   filter() {
-    const excludedPrams = ['sort', 'page', 'limit', 'fields'];
+    const excludedPrams = ["sort", "page", "limit", "fields"];
     const queryObj = { ...this.queryParams };
     excludedPrams.forEach((val) => delete queryObj[val]);
     let queryStr = JSON.stringify(queryObj);
@@ -17,20 +17,20 @@ class APIFeatures {
 
   sort() {
     if (this.queryParams.sort) {
-      const sortParams = this.queryParams.sort.split(',').join(' ');
+      const sortParams = this.queryParams.sort.split(",").join(" ");
       this.query = this.query.sort(sortParams);
     } else {
-      this.query = this.query.sort('-createdAt');
+      this.query = this.query.sort("-createdAt");
     }
     return this;
   }
 
   limitFields() {
     if (this.queryParams.fields) {
-      const fields = this.queryParams.fields.split(',').join(' ');
+      const fields = this.queryParams.fields.split(",").join(" ");
       this.query = this.query.select(fields);
     } else {
-      this.query = this.query.select('-__v');
+      this.query = this.query.select("-__v");
     }
     return this;
   }
@@ -42,6 +42,11 @@ class APIFeatures {
 
     this.query = this.query.skip(skip).limit(limit);
     return this;
+  }
+  async getTotalCount() {
+    const countQuery = { ...this.query.getQuery() };
+    const count = await this.query.model.countDocuments(countQuery);
+    return count;
   }
 }
 
