@@ -69,7 +69,8 @@ exports.getAll = (Model, filterFunc = () => {}) =>
       apiFeatures.getTotalCount(),
     ]);
 
-    const totalPages = Math.ceil(totalDocs / apiFeatures.queryParams.limit);
+    const totalPages =
+      Math.ceil(totalDocs / apiFeatures.queryParams.limit) || 1;
 
     res.status(200).json({
       isError: false,
