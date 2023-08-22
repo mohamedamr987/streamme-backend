@@ -19,9 +19,8 @@ const server = app.listen(port, () => {
 
 const io = socketIo(server);
 
-io.on("connection", (socket) => {
-  console.log("New connection");
-});
+exports.io = io;
+
 // process.on('unhandledRejection', (err) => {
 //   console.log('Unhandled rejection');
 //   console.log(err);

@@ -4,6 +4,7 @@ const AppError = require("../utils/appError");
 const Stream = require("../models/streamModel");
 const handlerFactory = require("./handlerFactory");
 const { RtcRole } = require("agora-access-token");
+const socketIoController = require("./socketIoController");
 
 exports.getAllStreams = handlerFactory.getAll(Stream);
 
@@ -14,6 +15,7 @@ exports.createStream = catchSync(async (req, res, next) => {
 
   const token = agoraController.generateToken(user, RtcRole.PUBLISHER);
   stream.user = req.user;
+  socketIoController.startSocketForStream(user);
   res.status(201).json({
     isError: false,
     message: "Stream created successfully",
@@ -43,4 +45,8 @@ exports.joinStream = catchSync(async (req, res, next) => {
   });
 });
 
-exports.deleteStream = handlerFactory.deleteOne(Stream);
+exports.deleteStream = (req, res, next) => {
+  const { channelName } = req.body;
+  socketIoController.closeSocketForStream(channelName);
+  handlerFactory.deleteOne(Stream)(req, res, next);
+};
