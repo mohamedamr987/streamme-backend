@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-
+const socketIo = require("socket.io");
 dotenv.config({ path: "./config.env" });
 const app = require(".");
 
@@ -17,6 +17,11 @@ const server = app.listen(port, () => {
   console.log("Example app listening on port 3000!");
 });
 
+const io = socketIo(server);
+
+io.on("connection", (socket) => {
+  console.log("New connection");
+});
 // process.on('unhandledRejection', (err) => {
 //   console.log('Unhandled rejection');
 //   console.log(err);
