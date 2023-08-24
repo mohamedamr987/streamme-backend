@@ -45,11 +45,13 @@ exports.startSocketForStream = function (channelName) {
         ...msg,
       });
     });
-    streamController.userJoinedStream(channelName, socket.user);
-    io.emit("joined_viewers", { user: socket.user });
-    socket.on("disconnect", () => {
-      io.emit("left_viewers", { user: socket.user });
-      streamController.userLeftStream(channelName, socket.user);
-    });
+    if (socket.user.id.toString() !== channelName.toString()) {
+      streamController.userJoinedStream(channelName, socket.user);
+      io.emit("joined_viewers", { user: socket.user });
+      socket.on("disconnect", () => {
+        io.emit("left_viewers", { user: socket.user });
+        streamController.userLeftStream(channelName, socket.user);
+      });
+    }
   });
 };
