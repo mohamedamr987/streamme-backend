@@ -33,6 +33,8 @@ exports.joinStream = catchSync(async (req, res, next) => {
 
   stream.viewers.push(req.user._id);
   await stream.save();
+  stream.viewers.pop();
+  stream.viewers.push(req.user);
 
   const token = agoraController.generateToken(channelName, RtcRole.SUBSCRIBER);
   res.status(200).json({
