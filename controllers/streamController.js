@@ -54,7 +54,7 @@ exports.userJoinedStream = async (channelName, user) => {
   const stream = await Stream.findOne({ channelName });
   if (!stream) return next(new AppError("Stream not found", 404));
 
-  stream.viewers.push(req.user._id);
+  stream.viewers.push(user._id);
   await stream.save();
 };
 

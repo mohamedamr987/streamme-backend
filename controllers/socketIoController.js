@@ -4,15 +4,15 @@ const AppError = require("../utils/appError");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const streamController = require("./streamController");
+const { promisify } = require("util");
 
 async function protect(socket, next) {
   let token;
   if (
-    socket.handshake.query &&
-    socket.handshake.query.authorization &&
-    socket.handshake.query.authorization.startsWith("Bearer")
+    socket.handshake.headers.authorization &&
+    socket.handshake.headers.authorization.startsWith("Bearer")
   ) {
-    token = req.headers.authorization.split(" ")[1];
+    token = socket.handshake.headers.authorization.split(" ")[1];
   } else {
     return next(
       new AppError("You are not authorized to access this page", 401)
