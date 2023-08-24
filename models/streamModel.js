@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const streamSchema = mongoose.Schema({
   channelName: {
     type: String,
+    unique: true,
     required: [true, "Please enter a channel name"],
   },
   user: {

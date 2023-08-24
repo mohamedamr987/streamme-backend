@@ -47,6 +47,13 @@ exports.joinStream = catchSync(async (req, res, next) => {
 
 exports.deleteStream = (req, res, next) => {
   const { channelName } = req.body;
-  socketIoController.closeSocketForStream(channelName);
   handlerFactory.deleteOne(Stream)(req, res, next);
+};
+
+exports.userJoinedStream = async (channelName, user) => {
+  const stream = await Stream.findOne({ channelName });
+  if (!stream) return next(new AppError("Stream not found", 404));
+
+  stream.viewers.push(req.user._id);
+  await stream.save();
 };
