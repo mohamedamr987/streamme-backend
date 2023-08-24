@@ -46,6 +46,10 @@ exports.startSocketForStream = function (channelName) {
       });
     });
     streamController.userJoinedStream(channelName, socket.user);
-    io.emit("viewers", { user: socket.user });
+    io.emit("joined_viewers", { user: socket.user });
+    socket.on("disconnect", () => {
+      io.emit("left_viewers", { user: socket.user });
+      streamController.userLeftStream(channelName, socket.user);
+    });
   });
 };
